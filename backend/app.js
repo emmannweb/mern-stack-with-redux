@@ -22,18 +22,19 @@ const bannerRoutes = require('./routes/banner');
 mongoose.connect(process.env.DATABASE, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useCreateIndex: true
+    useCreateIndex: true,
+    useFindAndModify: false
 })
-.then(()=> console.log('DB connected'))
-.catch((err)=> console.log(err));
+    .then(() => console.log('DB connected'))
+    .catch((err) => console.log(err));
 
 // MIDDLEWARE
 app.use(morgan('dev'));
-app.use(bodyParser.json({limit: '100mb'}));
+app.use(bodyParser.json({ limit: '100mb' }));
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     limit: '100mb',
     extended: true
-    }));
+}));
 app.use(cookieParser());
 app.use(cors());
 
@@ -47,11 +48,11 @@ app.use("/api", bannerRoutes)
 
 
 //ERROR MIDDLEWARE
- app.use(errorHandler);
+app.use(errorHandler);
 
 const port = process.env.PORT || 8000;
 
 
-app.listen(port, ()=>{
+app.listen(port, () => {
     console.log(`App is running on port ${port}`);
 })

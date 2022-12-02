@@ -83,42 +83,84 @@ exports.displayProduct = async (req, res, next) => {
 // Update product image in Cloudinary and product data in MongoDB.
 exports.updateProduct = async (req, res, next) => {
     try {
+
         //current product
-        const currentProduct = await Product.findById(req.params.id);
+        const product = await Product.findById(req.params.id);
+        if (product) {
+            product.name = req.body.name;
+            product.description = req.body.description;
+            product.price = req.body.price;
+            product.category = req.body.category;
+            // //modify image conditionnally
+            if (req.body.image !== '') {
+                const ImgId = product.image.public_id;
+                if (ImgId) {
+                    await cloudinary.uploader.destroy(ImgId
+                        //      {
+                        //     type: "fetch",
+                        //     invalidate: true
+                        // }
+                    )
+                }
 
-        //build the data object
-        const data = {
-            name: req.body.name,
-            description: req.body.description,
-            price: req.body.price,
-            category: req.body.category
-        }
+                const image = await cloudinary.uploader.upload(req.body.image, {
+                    folder: "products",
+                    width: 1000,
+                    crop: "scale",
+                    // type: "fetch",
+                    // validate: true
+                });
 
-        //modify image conditionnally
-        if (req.body.image !== '') {
-            const ImgId = currentProduct.image.public_id;
-            if (ImgId) {
-                await cloudinary.uploader.destroy(ImgId);
+                product.image = {
+                    public_id: image.public_id,
+                    url: image.secure_url
+                }
             }
 
-            const newImage = await cloudinary.uploader.upload(req.body.image, {
-                folder: "products",
-                width: 1000,
-                crop: "scale"
-            });
-
-            data.image = {
-                public_id: newImage.public_id,
-                url: newImage.secure_url
-            }
+            const updatedProd = await product.save();
+            res.status(200).json({
+                success: true,
+                updatedProd
+            })
         }
 
-        const productUpdate = await Product.findOneAndUpdate(req.params.id, data, { new: true })
+        // //current product
+        // const currentProduct = await Product.findById(req.params.id);
 
-        res.status(200).json({
-            success: true,
-            productUpdate
-        })
+        // //build the data object
+        // const data = {
+        //     name: req.body.name,
+        //     description: req.body.description,
+        //     price: req.body.price,
+        //     category: req.body.category
+        // }
+
+        // //modify image conditionnally
+        // if (req.body.image !== '') {
+        //     const ImgId = currentProduct.image.public_id;
+        //     if (ImgId) {
+        //         await cloudinary.uploader.destroy(ImgId);
+        //     }
+
+        //     const newImage = await cloudinary.uploader.upload(req.body.image, {
+        //         folder: "products",
+        //         width: 1000,
+        //         crop: "scale",
+        //         //type: "fetch", invalidate: true
+        //     });
+
+        //     data.image = {
+        //         public_id: newImage.public_id,
+        //         url: newImage.secure_url
+        //     }
+        // }
+
+        // const productUpdate = await Product.findOneAndUpdate(req.params.id, data, { new: true })
+
+        // res.status(200).json({
+        //     success: true,
+        //     productUpdate
+        // })
 
 
     } catch (error) {
@@ -161,11 +203,29 @@ exports.deleteProduct = async (req, res, next) => {
 
 
 
+// display single product
+exports.productSingle = async (req, res, next) => {
+
+    try {
+        const product = await Product.findById(req.params.id).populate('category', 'name');
+        res.status(201).json({
+            success: true,
+            product
+        })
+
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+
+}
+
+
 // display category
 exports.productCategory = async (req, res, next) => {
 
     try {
-        const cat = await Product.find().populate('category', 'name').distinct('category');
+        const cat = await Product.find().populate('category', 'name')
         res.status(201).json({
             success: true,
             cat
@@ -177,6 +237,8 @@ exports.productCategory = async (req, res, next) => {
     }
 
 }
+
+
 
 
 
