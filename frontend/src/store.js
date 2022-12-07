@@ -8,6 +8,7 @@ import {
     ProductUpdateReducer,
     ProductSingleReducer
 } from './reducers/ProductReducer';
+import { userReducer } from './reducers/UserReducer';
 
 
 // combine our reducers
@@ -16,11 +17,16 @@ const reducer = combineReducers({
     newProduct: newProductReducer,
     deleteProduct: ProductDeleteReducer,
     updateProd: ProductUpdateReducer,
-    singleProduct: ProductSingleReducer
+    singleProduct: ProductSingleReducer,
+    logInUser: userReducer
 })
 
 //initial state
-let initialState = {};
+let initialState = {
+    logInUser: localStorage.getItem('logInUser')
+        ? JSON.parse(localStorage.getItem('logInUser')) :
+        {}
+};
 
 const middleware = [thunk];
 const store = createStore(reducer, initialState, composeWithDevTools(applyMiddleware(...middleware)))

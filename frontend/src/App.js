@@ -4,6 +4,9 @@ import Home from './pages/Home';
 import CreateProduct from './pages/admin/CreateProduct';
 import ListProduct from './pages/admin/ListProduct';
 import UpdateProduct from './pages/admin/UpdateProduct';
+import SignIn from './pages/SignIn';
+import AdminRoute from './components/AdminRoute';
+
 
 
 
@@ -15,9 +18,10 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/admin/product/create" element={<CreateProduct />} />
-          <Route path="/admin/products" element={<ListProduct />} />
-          <Route path="/admin/edit/product/:productId" element={<UpdateProduct />} />
+          <Route path="/admin/product/create" element={<AdminRoute><CreateProduct /></AdminRoute>} />
+          <Route path="/admin/products" element={<AdminRoute><ListProduct /></AdminRoute>} />
+          <Route path="/admin/edit/product/:productId" element={<AdminRoute><UpdateProduct /></AdminRoute>} />
+          <Route path="/user/signin" element={<SignIn />} />
         </Routes>
       </BrowserRouter>
     </>
