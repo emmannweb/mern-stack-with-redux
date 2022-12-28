@@ -8,7 +8,7 @@ import {
     ProductUpdateReducer,
     ProductSingleReducer
 } from './reducers/ProductReducer';
-import { userReducer } from './reducers/UserReducer';
+import { userProfileReducer, userReducerSignIn } from './reducers/UserReducer';
 
 
 // combine our reducers
@@ -18,14 +18,17 @@ const reducer = combineReducers({
     deleteProduct: ProductDeleteReducer,
     updateProd: ProductUpdateReducer,
     singleProduct: ProductSingleReducer,
-    logInUser: userReducer
+    logInUser: userReducerSignIn,
+    userProfile: userProfileReducer
 })
 
 //initial state
 let initialState = {
-    logInUser: localStorage.getItem('logInUser')
-        ? JSON.parse(localStorage.getItem('logInUser')) :
-        {}
+    logInUser: {
+        userInfo: localStorage.getItem('logInUser')
+            ? JSON.parse(localStorage.getItem('logInUser')) :
+            null
+    }
 };
 
 const middleware = [thunk];

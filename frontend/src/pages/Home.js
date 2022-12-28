@@ -2,10 +2,21 @@ import React, { useEffect, useState } from 'react'
 import { listOfProducts } from '../actions/productAction';
 import { useDispatch, useSelector } from 'react-redux';
 import Card from '../components/Card';
+import { useNavigate } from 'react-router-dom';
 
 
 
 const Home = () => {
+    const navigate = useNavigate();
+    const [val, setVal] = useState(true);
+    useEffect(() => {
+
+        if (val) {
+            navigate('/user/signin')
+        }
+
+    }, [val])
+
 
     const { products, loading, count, error } = useSelector(state => state.productList);
 

@@ -70,7 +70,7 @@ const generateToken = async (user, statusCode, res) => {
     res
         .status(statusCode)
         .cookie('token', token, options)
-        .json({ success: true, name: user.name, role: user.role })
+        .json({ success: true, role: user.role })
 }
 
 

@@ -1,18 +1,30 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, Navigate } from 'react-router-dom';
 import { signInUser } from '../actions/userAction';
 
 const SignIn = () => {
-
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const { userInfo } = useSelector((state) => state.logInUser);
+    const navigate = useNavigate();
+    const [email, setEmail] = useState('emmann@gmail.com');
+    const [password, setPassword] = useState('Mann@123');
     const dispatch = useDispatch();
-
 
     const logInUser = (e) => {
         e.preventDefault();
         dispatch(signInUser({ email, password }));
     }
+
+    useEffect(() => {
+
+        if (userInfo) {
+            setTimeout(() => {
+                navigate('/user/profile');
+            }, 1000);
+        }
+
+    }, [navigate, userInfo]);
+
     return (
         <>
             <div className="bg">
