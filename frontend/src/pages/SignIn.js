@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Navigate } from 'react-router-dom';
 import { signInUser } from '../actions/userAction';
+import Navbar from '../components/Navbar';
 
 const SignIn = () => {
     const { userInfo } = useSelector((state) => state.logInUser);
@@ -29,6 +30,7 @@ const SignIn = () => {
         <>
             <div className="bg">
                 <div className="container">
+                    <Navbar />
                     <div className="row">
                         <div className="col-sm-6 offset-3 form_wrapper">
                             <div className="form-signin w-100 m-auto mainform">

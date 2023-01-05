@@ -1,5 +1,9 @@
 import {
     USER_FAIL,
+    USER_LOGOUT_FAIL,
+    USER_LOGOUT_REQUEST,
+    USER_LOGOUT_RESET,
+    USER_LOGOUT_SUCCESS,
     USER_PROFILE_FAIL,
     USER_PROFILE_REQUEST,
     USER_PROFILE_RESET,
@@ -52,3 +56,23 @@ export const userProfileReducer = (state = { user: {} }, action) => {
 
 }
 
+
+// log out
+export const userLogoutReducer = (state = {}, action) => {
+    switch (action.type) {
+        case USER_LOGOUT_REQUEST:
+            return { loading: true }
+        case USER_LOGOUT_SUCCESS:
+            return {
+                loading: false,
+                user: action.payload
+            }
+        case USER_LOGOUT_FAIL:
+            return { loading: false, error: action.payload }
+        case USER_LOGOUT_RESET:
+            return {}
+
+        default:
+            return state;
+    }
+}

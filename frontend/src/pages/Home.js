@@ -3,20 +3,12 @@ import { listOfProducts } from '../actions/productAction';
 import { useDispatch, useSelector } from 'react-redux';
 import Card from '../components/Card';
 import { useNavigate } from 'react-router-dom';
+import Navbar from '../components/Navbar';
 
 
 
 const Home = () => {
     const navigate = useNavigate();
-    const [val, setVal] = useState(true);
-    useEffect(() => {
-
-        if (val) {
-            navigate('/user/signin')
-        }
-
-    }, [val])
-
 
     const { products, loading, count, error } = useSelector(state => state.productList);
 
@@ -31,7 +23,7 @@ const Home = () => {
     return (
         <>
             <div className="home_page container">
-                <h1>Home page.</h1>
+                <Navbar />
                 <div className="row">
 
                     {

@@ -1,6 +1,9 @@
 import axios from "axios"
 import {
     USER_FAIL,
+    USER_LOGOUT_FAIL,
+    USER_LOGOUT_REQUEST,
+    USER_LOGOUT_SUCCESS,
     USER_PROFILE_FAIL,
     USER_PROFILE_REQUEST,
     USER_PROFILE_SUCCESS,
@@ -38,7 +41,29 @@ export const userProfile = () => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: USER_PROFILE_FAIL,
-            payload: error.reponse.data.message
+            payload: error.reponse.data.error
         })
     }
 }
+
+
+//user logout
+export const userLogoutAction = () => async (dispatch) => {
+    try {
+        dispatch({ type: USER_LOGOUT_REQUEST })
+        const { data } = await axios.get('/api/logout');
+        localStorage.removeItem('logInUser');
+        dispatch({
+            type: USER_LOGOUT_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        dispatch({
+            type: USER_LOGOUT_FAIL,
+            payload: error.reponse.data.error
+        })
+    }
+}
+
+
+

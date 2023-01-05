@@ -8,7 +8,7 @@ import {
     ProductUpdateReducer,
     ProductSingleReducer
 } from './reducers/ProductReducer';
-import { userProfileReducer, userReducerSignIn } from './reducers/UserReducer';
+import { userLogoutReducer, userProfileReducer, userReducerSignIn } from './reducers/UserReducer';
 
 
 // combine our reducers
@@ -19,7 +19,9 @@ const reducer = combineReducers({
     updateProd: ProductUpdateReducer,
     singleProduct: ProductSingleReducer,
     logInUser: userReducerSignIn,
-    userProfile: userProfileReducer
+    userProfile: userProfileReducer,
+    logout: userLogoutReducer
+
 })
 
 //initial state
