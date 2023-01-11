@@ -1,4 +1,8 @@
-import axios from "axios"
+import axios from "axios";
+import { toast } from 'react-toastify';
+
+
+
 import {
     USER_FAIL,
     USER_LOGOUT_FAIL,
@@ -20,11 +24,14 @@ export const signInUser = (user) => async (dispatch) => {
             type: USER_SUCCESS,
             payload: data
         })
+        toast.success("Log In successfully!");
+
     } catch (error) {
         dispatch({
             type: USER_FAIL,
-            payload: error.reponse.data.message
+            payload: error.response.data.error
         })
+        toast.error(error.response.data.error);
     }
 }
 

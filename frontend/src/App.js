@@ -8,9 +8,8 @@ import SignIn from './pages/SignIn';
 import AdminRoute from './components/AdminRoute';
 import UserProfile from './pages/admin/UserProfile';
 import UserRoute from './components/UserRoute';
-
-
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const App = () => {
@@ -18,6 +17,7 @@ const App = () => {
 
   return (
     <>
+      <ToastContainer />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
